@@ -1,0 +1,261 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Products API",
+        "contact": {
+            "name": "Linhan",
+            "email": "lhzhang@outlook.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "schemes": ["http"],
+    "host": "localhost:8080",
+    "basePath": "/api",
+    "paths": {
+        "/product": {
+            "get": {
+                "summary": "Get all the products",
+                "description": "Get all the products",
+                "produces": ["application/json"],
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/product"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "no products available",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{productId}": {
+            "get": {
+                "summary": "Get the product by id",
+                "description": "Get the product by id",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "productId",
+                    "in": "path",
+                    "type": "integer",
+                    "required": true,
+                    "description": "Numeric ID of the product to get"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/product"
+                        }
+                    },
+                    "400": {
+                        "description": "no product found",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/": {
+            "post": {
+                "summary": "Save the product",
+                "description": "Save the product",
+                "produces": ["application/json"],
+                "consumes": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "product object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/productPostPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/productPostResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "the value(s) is/are invalid",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{UpdateId}": {
+            "put": {
+                "summary": "Update the product",
+                "description": "Update the product",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "UpdateId",
+                        "in": "path",
+                        "description": "Numeric ID of the product to update",
+                        "required": true,
+                        "type": "string"
+                    }, {
+                        "in": "body",
+                        "name": "body",
+                        "description": "product object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/productPostPayload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/productPostResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "the value(s) is/are invalid",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/{DeleteId}": {
+            "delete": {
+                "summary": "Delete the product",
+                "description": "Delete the product",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "DeleteId",
+                        "in": "path",
+                        "description": "Numeric ID of the product to delete",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid status value",
+                        "schema": {
+                            "$ref": "#/definitions/InvalidResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "product": {
+            "type": "object",
+            "properties": {
+                "productId": {
+                    "type": "integer"
+                },
+                "productName": {
+                    "type": "string"
+                },
+                "productOwnerName": {
+                    "type": "string"
+                },
+                "developers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "scrumMasterName": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "methodology": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                }
+            }
+        },
+        "productPostPayload": {
+            "type": "object",
+            "properties": {
+                "productName": {
+                    "type": "string"
+                },
+                "productOwnerName": {
+                    "type": "string"
+                },
+                "developers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "scrumMasterName": {
+                    "type": "string"
+                },
+                "startDate": {
+                    "type": "string"
+                },
+                "methodology": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                }
+                    
+            }
+        },
+        "productPostResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "content": {
+                    "$ref": "#/definitions/productPostPayload"
+                }
+            }
+        },
+        "InvalidResponse": {
+            "type": "object",
+            "properties": {
+                "statusCode": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+
+        }
+    }
+}
